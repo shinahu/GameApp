@@ -4,61 +4,100 @@ namespace GameApp.models
 {
     public class Game
     {
-        public string playerChoice { get; set; } 
-        public string cpuChoice { get; set; }
-        public string gameResult { get; set; }
+        public string PlayerChoice { get; set; } 
+        public string ComChoice { get; set; }
+        public string GameResult { get; set; }
 
-        public string userName { get; set; }
+        public string UserName { get; set; }
 
-        //public static int ScorePlayer { get; set; }
+        public int MaxRounds { get; set; }
 
-        //public int ScoreCPU { get; set; }
+        public int CurrentRound { get; set; }
 
-        
-        
+        public string FinalGameResult { get; set; }
+
+
+        public string noRound;
+
+        public int userscore;
+
+        public int comscore;
+
+       
+
 
 
         public void CpuRandomChoice()
         {
             // selecting random choice by setting array with possible values
-            string[] ChoiceArray = { "Rock", "Paper", "Scissors" };
+            string[] ArrayChoice = { "Rock", "Paper", "Scissors" };
             //setting up rand
             Random random = new Random();
             //return variable from array with rand index
-            this.cpuChoice = ChoiceArray[random.Next(0,3)];
+            this.ComChoice = ArrayChoice[random.Next(0,3)];
         }
 
 
-  public void PlayerSelection(string playerselection, string loginusername)
+  public void PlayerSelection(string playerselection, string username, int currentround, int maxrounds)
         {
             //Player player1 = new Player(playerselection, username);
-            this.playerChoice = playerselection;
-            this.userName = loginusername;
+            this.PlayerChoice = playerselection;
+            this.UserName = username;
+            this.CurrentRound = currentround;
+            this.MaxRounds = maxrounds;
             
         }
+    
 
-        public void GameResults(string playerChoice, string cpuChoice )
+
+        
+ /* public void RoundSelection(string numRound,string loginusername)
         {
-          
-           //string CpuRandomChoice = this.PlayerChoice + this.CpuChoice;
+            
+            this.numberofRounds = numRound;
+            this.userName = loginusername;
+            
+            
+        }*/
 
-          
+        public void Results()
+        {
+          this.CpuRandomChoice();
+          string combineSelections = this.PlayerChoice + this.ComChoice;      
         
             
-            if (playerChoice == "Rock" && cpuChoice == "Scissors" || playerChoice == "Scissors" && cpuChoice == "Paper" || playerChoice == "Paper" && cpuChoice == "Rock")
+            if (combineSelections == "RockScissors" || combineSelections == "PaperRock"|| combineSelections == "ScissorsPaper")
             {
-                this.gameResult = "You Win";
-                //ScorePlayer++;
+                this.GameResult = "You Win";
+                userscore++;
             }
-            else if (playerChoice == "Rock" && cpuChoice == "Rock" || playerChoice == "Scissors" && cpuChoice == "Scissors" || playerChoice == "Paper" && cpuChoice == "Paper")
+            else if (combineSelections == "RockPaper" || combineSelections == "ScissorsRock" || combineSelections == "PaperScissors")
             {
-                this.gameResult = "Its a Draw";
+                this.GameResult = "You Loose!";
+                comscore++;
             }
             else 
             {
-                this.gameResult = "You Lose";
-                //ScoreCPU++;
+                this.GameResult = "Draw";
+                
             }
         }
-    }
+
+    
+
+        public void GenerateFinalGameResult(){
+        if(this.userscore > this.comscore)
+        {
+            this.FinalGameResult = "A Winning Champ!";
+        } 
+         else if (this.userscore < this.comscore)
+         {
+           this.FinalGameResult = "A Big Loser!";
+         }
+         else
+        {
+             this.FinalGameResult = "An Uninteresting Draw!";
+        }
+          }
+}
 }
